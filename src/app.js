@@ -1,5 +1,7 @@
 const express = require("express");
 
+const leadRoutes = require("./routes/leadRoutes");
+
 const app = express();
 
 app.use(express.json());
@@ -10,30 +12,7 @@ app.get("/", (req, res) => {
     });
 });
 
-app.get("/leads", (req, res) => {
-    res.json([]);
-});
-
-app.post("/leads", (req, res) => {
-    const { nome, email, telefone, mensagem } = req.body;
-
-    if (!nome || !email || !telefone || !mensagem) {
-        return res.status(400).json({
-            error: "nome, email, telefone e mensagem são obrigatórios"
-        });
-    }
-
-    const lead = {
-        id: 1,
-        nome,
-        email,
-        telefone,
-        mensagem,
-        status: "novo"
-    };
-
-    return res.status(201).json(lead);
-});
+app.use("/leads", leadRoutes);
 
 const PORT = 3000;
 
